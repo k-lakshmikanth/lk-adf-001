@@ -1,0 +1,30 @@
+name: Deploy Ingestion ADF
+run-name: Deploy Ingestion ADF
+
+on:
+  workflow_dispatch: 
+  # pull_request:
+  #   types: [closed]
+  #   branches: [test]
+    
+jobs:
+  build_ARM_templates:
+    name: Build ARM templates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3.2.0
+        
+      - name: Export ARM templates
+        id: export
+        uses: Azure/data-factory-export-action@v1.2.0
+        with:
+          path: Ingestion
+#           id: /subscriptions/14408b8c-b4a0-4817-8fbc-31a52b9b9399/resourceGroups/CI-CD/providers/Microsoft.DataFactory/factories/dev-mvc-adf
+
+      - name: Upload ARM templates artifact
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: armtemplates
+          path: ${{steps.export.outputs.arm-template-directory }}
+          if-no-files-found: error
