@@ -14,7 +14,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3.2.0
-        
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          
       - name: Export ARM templates
         id: export
         uses: Azure/data-factory-export-action@v1.2.0
