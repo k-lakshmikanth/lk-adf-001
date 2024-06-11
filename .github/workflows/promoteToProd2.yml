@@ -26,5 +26,5 @@ jobs:
         uses: actions/upload-artifact@v3.1.1
         with:
           name: armtemplates
-          path: $((steps.export,outputs.arm-template-directory })
+          path: $((steps.export.outputs.arm-template-directory })
           if-no-files-found: error
