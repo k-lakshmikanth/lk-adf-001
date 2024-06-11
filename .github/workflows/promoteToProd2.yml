@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.2.0
+        uses: actions/checkout@v4.1.5
 
       - name: Export ARM templates
         id: export
@@ -28,7 +28,7 @@ jobs:
           ls ${{steps.export.outputs.arm-template-directory }}
       
       - name: Upload ARM templates artifact
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@v4.3.3
         with:
           name: armtemplates
           path: ${{steps.export.outputs.arm-template-directory }}
