@@ -3,7 +3,7 @@ run-name: Deploy Ingestion ADF to PROD2
 
 on:
   workflow_dispatch:
-	
+
 jobs:
   build_ARM_templates:
     name: Build ARM templates
