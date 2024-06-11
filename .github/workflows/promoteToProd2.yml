@@ -12,17 +12,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3.2.0
 
-      - name: data-factory-validate
-        uses: Azure/data-factory-validate-action@v1.1.5
-        with:
-          # Directory that contains all Data Factory resources
-          path: Ingestion
-          # Data Factory resource ID
-          id: /subscriptions/0417ba2f-23e4-4c31-93be-75e376017b03/resourceGroups/Chinnamamaya-RG/providers/Microsoft.DataFactory/factories/lk-adf-001
-
       - name: Export ARM templates
         id: export
-        uses: Azure/data-factory-export-action@v1.2.0
+        uses: Azure/data-factory-export-action@v1.1.0
         with:
           path: Ingestion
           id: /subscriptions/0417ba2f-23e4-4c31-93be-75e376017b03/resourceGroups/Chinnamamaya-RG/providers/Microsoft.DataFactory/factories/lk-adf-001
