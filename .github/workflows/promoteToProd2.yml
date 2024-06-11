@@ -1,0 +1,27 @@
+name: Deploy Ingestion ADF to PROD2
+run-name: Deploy Ingestion ADF to PROD2
+
+on:
+  workflow_dispatch:
+	
+jobs:
+  build_ARM_templates:
+    name: Build ARM templates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3.2.0
+      
+      - name: Export ARM templates
+        id: export
+        uses: Azure/data-factory-export-action@v1.2.0
+        with:
+          path: Ingestion
+          id: /subscriptions/0417ba2f-23e4-4c31-93be-75e376017b03/resourceGroups/Chinnamamaya-RG/providers/Microsoft.DataFactory/factories/lk-adf-001
+      
+      - name: Upload ARM templates artifact
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: armtemplates
+          path: $((steps.export,outputs.arm-template-directory })
+          if-no-files-found: error
