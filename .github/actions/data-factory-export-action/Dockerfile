@@ -4,4 +4,6 @@ WORKDIR /usr/app
 
 COPY export.sh /export.sh
 
+RUN chmod +x export.sh
+
 ENTRYPOINT ["/export.sh"]
