@@ -15,10 +15,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3.2.0
 
-      - name: Setup node
-        uses: actions/setup-node@v4
+  # Installs Node and the npm packages saved in your package.json file in the build
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.4.1
         with:
-          node-version: 18
+          node-version: 14.x
+          
+      - name: install ADF Utilities package
+        run: npm install
+        working-directory: ${{github.workspace}}/Ingestion/build  # (1) provide the folder location of the package.json file
+          
+  # Validates all of the Data Factory resources in the repository. You'll get the same validation errors as when "Validate All" is selected.
+      - name: Validate
+        run: npm run build validate ${{github.workspace}}/Ingestion/ /subscriptions/0417ba2f-23e4-4c31-93be-75e376017b03/resourceGroups/Chinnamamaya-RG/providers/Microsoft.DataFactory/factories/lk-adf-001
+        working-directory: ${{github.workspace}}/Ingestion/build
           
       - name: Export ARM templates
         id: export
