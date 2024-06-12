@@ -50,9 +50,6 @@ jobs:
         run: |
           touch ./temp_cert_and_private_key_acc.pem
           echo "$spn_certificate" >> ./temp_cert_and_private_key_acc.pem
-
-      - name: check
-        run: ls
           
       - name: Azure login
         shell: pwsh
@@ -61,17 +58,16 @@ jobs:
           Connect-AzAccount -ServicePrincipal -ApplicationId ${{secrets.AZURE_SPN_APP_ID_ACC}} -TenantId ${{secrets.AZURE_SPN_TENET}} -CertificatePath './temp_cert_and_private_key_acc.pem'  
           az login --service-principal -u ${{secrets.AZURE_SPN_APP_ID_ACC}} -p temp_cert_and_private_key_acc.pem --tenant ${{secrets.AZURE_SPN_TENET}}
           
-      # - name: Download ARM templates artifact
-      #   uses: actions/download-artifact@v3.0.1
-      #   with:
-      #     name: armtemplates
-      #     path: armtemplates
+      - name: Download ARM templates artifact
+        uses: actions/download-artifact@v3.0.1
+        with:
+          name: armtemplates
+          path: armtemplates
 
-      # - name: Deploy to TEST
-      #   uses: Azure/data-factory-deploy-action@v1.2.0
-      #   with:
-      #     resourceGroupName: ${{ secrets.TEST_INGESTION_ADF_RESOURCE_GROUP_NAME}}
-      #     dataFactoryName: ${{ secrets.TEST_INGESTION_DATA_FACTORY_NAME}}
-      #     armTemplateFile: ./armtemplates/ARMTemplateForFactory.json
-      #     armTemplateParametersFile: ./TEST-ARMTemplateParametersForFactory.json
+      - name: Deploy to TEST
+        uses: Azure/data-factory-deploy-action@v1.2.0
+        with:
+          resourceGroupName: Chinnamamaya-RG
+          dataFactoryName: lk-adf-002
+          armTemplateFile: ./armtemplates/ARMTemplateForFactory.json
 ################### End of workflow file ###################
