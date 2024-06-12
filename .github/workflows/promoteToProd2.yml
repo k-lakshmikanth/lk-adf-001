@@ -3,9 +3,9 @@ run-name: Deploy Ingestion ADF to PROD2
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
 
 jobs:
   build_ARM_templates:
@@ -44,31 +44,32 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3.2.0
 
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          creds: '{"clientId": "ec755ded-9fa9-4eeb-8e19-80e886940fd9","clientSecret": "KaI8Q~vD8D9-dhqt55ylSUPDNNEwLa7JkqXzTc8G","subscriptionId": "0417ba2f-23e4-4c31-93be-75e376017b03","tenantId": "83f1e4bf-6250-46ba-9d55-4fc1c00efb85"}'
-                # {
-                # "clientId": "<<the SPN's clientID or ApplicationID>>",
-                # "clientSecret": "<<the SPN's key value, obtained from SPN management portal>>",
-                # "subscriptionId": "<<the subscription ID of the SPN's Azure subscription>>",
-                # "tenantId": "<<the Azure directory/teneant ID where the SPN resides in>>",
-                # "resourceManagerEndpointUrl": "https://management.azure.com/"
-                # }
-          enable-AzPSSession: true
-          allow-no-subscriptions: true
+      - name: retrive SPN Certificate and private key - PEM file - from github secrets and save file
+        env: 
+          spn_certificate: ${{secrets.AZURE_SPN_CERTIFICATE_ACC}}
+        run: |
+          touch ./temp_cert_and_private_key_acc.pem
+          echo "$spn_certificate" >> ./temp_cert_and_private_key_acc.pem
+          
+          
+      - name: Azure login
+        shell: pwsh
+        run : |
+          Install-Module Az -Force
+          Connect-AzAccount -ServicePrincipal -ApplicationId ${{secrets.AZURE_SPN_APP_ID_ACC}} -TenantId ${{secrets.AZURE_SPN_TENET}} -CertificatePath './temp_cert_and_private_key_acc.pem'  
+          az login --service-principal -u ${{secrets.AZURE_SPN_APP_ID_ACC}} -p temp_cert_and_private_key_acc.pem --tenant ${{secrets.AZURE_SPN_TENET}}
+          
+      # - name: Download ARM templates artifact
+      #   uses: actions/download-artifact@v3.0.1
+      #   with:
+      #     name: armtemplates
+      #     path: armtemplates
 
-      - name: Azure CLI script
-        uses: azure/cli@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az account show
-
-      - name: Azure PowerShell script
-        uses: azure/powershell@v2
-        with:
-          azPSVersion: "latest"
-          inlineScript: |
-            Get-AzContext
-            Get-AzResourceGroup
+      # - name: Deploy to TEST
+      #   uses: Azure/data-factory-deploy-action@v1.2.0
+      #   with:
+      #     resourceGroupName: ${{ secrets.TEST_INGESTION_ADF_RESOURCE_GROUP_NAME}}
+      #     dataFactoryName: ${{ secrets.TEST_INGESTION_DATA_FACTORY_NAME}}
+      #     armTemplateFile: ./armtemplates/ARMTemplateForFactory.json
+      #     armTemplateParametersFile: ./TEST-ARMTemplateParametersForFactory.json
+################### End of workflow file ###################
