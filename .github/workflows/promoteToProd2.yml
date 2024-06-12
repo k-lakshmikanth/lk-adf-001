@@ -45,7 +45,7 @@ jobs:
         uses: actions/checkout@v3.2.0
 
       - name: Login to Azure
-        uses: azure/login@v2.1.0
+        uses: azure/login@v2
         with:
           creds: '{"clientId": "ec755ded-9fa9-4eeb-8e19-80e886940fd9","clientSecret": "KaI8Q~vD8D9-dhqt55ylSUPDNNEwLa7JkqXzTc8G","subscriptionId": "0417ba2f-23e4-4c31-93be-75e376017b03","tenantId": "83f1e4bf-6250-46ba-9d55-4fc1c00efb85"}'
                 # {
@@ -56,4 +56,19 @@ jobs:
                 # "resourceManagerEndpointUrl": "https://management.azure.com/"
                 # }
           enable-AzPSSession: true
-          # allow-no-subscriptions: true
+          allow-no-subscriptions: true
+
+      - name: Azure CLI script
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az account show
+
+      - name: Azure PowerShell script
+        uses: azure/powershell@v2
+        with:
+          azPSVersion: "latest"
+          inlineScript: |
+            Get-AzContext
+            Get-AzResourceGroup
