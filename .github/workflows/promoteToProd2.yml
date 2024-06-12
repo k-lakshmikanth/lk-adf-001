@@ -33,3 +33,27 @@ jobs:
           name: armtemplates
           path: ${{steps.export.outputs.arm-template-directory }}
           if-no-files-found: error
+
+  deploy_to_uat_ingestion_adf:
+    # if: ${{ github.ref == 'refs/heads/uat' || github.ref_name == 'uat' }}
+    needs: [build_ARM_templates]
+    name: Deploy to TEST ADF
+    runs-on: ubuntu-latest
+    environment: TEST
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3.2.0
+
+      - name: Login to Azure
+        uses: azure/login@v2.1.0
+        with:
+          creds: '{"clientId": "ec755ded-9fa9-4eeb-8e19-80e886940fd9","clientSecret": "KaI8Q~vD8D9-dhqt55ylSUPDNNEwLa7JkqXzTc8G","subscriptionId": "0417ba2f-23e4-4c31-93be-75e376017b03","tenantId": "83f1e4bf-6250-46ba-9d55-4fc1c00efb85"}'
+                # {
+                # "clientId": "<<the SPN's clientID or ApplicationID>>",
+                # "clientSecret": "<<the SPN's key value, obtained from SPN management portal>>",
+                # "subscriptionId": "<<the subscription ID of the SPN's Azure subscription>>",
+                # "tenantId": "<<the Azure directory/teneant ID where the SPN resides in>>",
+                # "resourceManagerEndpointUrl": "https://management.azure.com/"
+                # }
+          enable-AzPSSession: true
+          # allow-no-subscriptions: true
