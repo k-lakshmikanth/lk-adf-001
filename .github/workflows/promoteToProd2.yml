@@ -68,8 +68,7 @@ jobs:
         shell: pwsh
         run: |
           pwd
-          ls
-          Get-Content /home/runner/work/lk-adf-001/lk-adf-001/ARMTemplateForFactory.json
+          ls /home/runner/work/lk-adf-001/lk-adf-001
         
       - name: Deploy to TEST
         uses: Azure/data-factory-deploy-action@v1.2.0
