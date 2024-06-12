@@ -75,4 +75,5 @@ jobs:
         with:
           resourceGroupName: Chinnamamaya-RG
           dataFactoryName: lk-adf-002
+          armTemplateFile: ./armtemplates/ARMTemplateForFactory.json
 ################### End of workflow file ###################
