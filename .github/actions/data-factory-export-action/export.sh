@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 dataFactoryDirectory=$1
 dataFactoryId=$2
