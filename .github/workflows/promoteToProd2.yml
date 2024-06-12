@@ -42,7 +42,7 @@ jobs:
     environment: TEST
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.2.0
+        uses: actions/checkout@v4.1.5
 
       - name: retrive SPN Certificate and private key - PEM file - from github secrets and save file
         env: 
@@ -59,7 +59,7 @@ jobs:
           az login --service-principal -u ${{secrets.AZURE_SPN_APP_ID_ACC}} -p temp_cert_and_private_key_acc.pem --tenant ${{secrets.AZURE_SPN_TENET}}
           
       - name: Download ARM templates artifact
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@v4.1.7
         with:
           name: armtemplates
           path: armtemplates
