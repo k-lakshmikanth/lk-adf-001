@@ -21,11 +21,6 @@ jobs:
         with:
           path: Ingestion
           id: /subscriptions/0417ba2f-23e4-4c31-93be-75e376017b03/resourceGroups/Chinnamamaya-RG/providers/Microsoft.DataFactory/factories/lk-adf-001
-
-      - name: check
-        run: |
-          echo "${{steps.export.outputs.arm-template-directory }}"
-          ls ${{steps.export.outputs.arm-template-directory }}
       
       - name: Upload ARM templates artifact
         uses: actions/upload-artifact@v4.3.3
@@ -63,13 +58,7 @@ jobs:
         with:
           name: armtemplates
           path: armtemplates
-          
-      - name: check
-        shell: pwsh
-        run: |
-          pwd
-          ls /home/runner/work/lk-adf-001/lk-adf-001
-        
+
       - name: Deploy to TEST
         uses: Azure/data-factory-deploy-action@v1.2.0
         with:
