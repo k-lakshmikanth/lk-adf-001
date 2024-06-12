@@ -1,5 +1,5 @@
-name: Deploy Ingestion ADF to PROD2
-run-name: Deploy Ingestion ADF to PROD2
+name: Test
+run-name: Test
 
 on:
   workflow_dispatch:
