@@ -1,0 +1,35 @@
+name: Deploy Ingestion ADF to PROD2
+run-name: Deploy Ingestion ADF to PROD2
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_to_uat_ingestion_adf:
+    name: Deploy to TEST ADF
+    runs-on: ubuntu-latest
+    environment: TEST
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3.2.0
+
+      - name: retrive SPN Certificate and private key - PEM file - from github secrets and save file
+        env: 
+          spn_certificate: ${{secrets.AZURE_SPN_CERTIFICATE_ACC}}
+        run: |
+          touch ./temp_cert_and_private_key_acc.pem
+          echo "$spn_certificate" >> ./temp_cert_and_private_key_acc.pem
+
+      - name: check
+        run: ls
+          
+      - name: Azure login
+        shell: pwsh
+        run : |
+          Install-Module Az -Force
+          Connect-AzAccount -ServicePrincipal -ApplicationId ${{secrets.AZURE_SPN_APP_ID_ACC}} -TenantId ${{secrets.AZURE_SPN_TENET}} -CertificatePath './temp_cert_and_private_key_acc.pem'  
+          az login --service-principal -u ${{secrets.AZURE_SPN_APP_ID_ACC}} -p temp_cert_and_private_key_acc.pem --tenant ${{secrets.AZURE_SPN_TENET}}
+          
