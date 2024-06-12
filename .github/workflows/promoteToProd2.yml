@@ -50,7 +50,9 @@ jobs:
         run: |
           touch ./temp_cert_and_private_key_acc.pem
           echo "$spn_certificate" >> ./temp_cert_and_private_key_acc.pem
-          
+
+      - name: check
+        run: ls
           
       - name: Azure login
         shell: pwsh
