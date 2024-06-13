@@ -59,13 +59,6 @@ jobs:
           name: armtemplates
           path: armtemplates
 
-      - name: check
-        shell: pwsh
-        run: |
-          pwd
-          ls armtemplates
-          Get-Content ./armtemplates/ARMTemplateForFactory.json
-
       - name: Deploy to TEST
         uses: Azure/data-factory-deploy-action@v1.2.0
         with:
