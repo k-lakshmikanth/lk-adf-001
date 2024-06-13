@@ -48,7 +48,7 @@ jobs:
           
       - name: Azure login
         shell: pwsh
-        run : |
+        run: |
           Install-Module Az -Force
           Connect-AzAccount -ServicePrincipal -ApplicationId ${{secrets.AZURE_SPN_APP_ID_ACC}} -TenantId ${{secrets.AZURE_SPN_TENET}} -CertificatePath './temp_cert_and_private_key_acc.pem'  
           az login --service-principal -u ${{secrets.AZURE_SPN_APP_ID_ACC}} -p temp_cert_and_private_key_acc.pem --tenant ${{secrets.AZURE_SPN_TENET}}
@@ -58,6 +58,13 @@ jobs:
         with:
           name: armtemplates
           path: armtemplates
+
+      - name: check
+        shell: pwsh
+        run: |
+          pwd
+          ls armtemplates
+          Get-Content ./armtemplates/ARMTemplateForFactory.json
 
       - name: Deploy to TEST
         uses: Azure/data-factory-deploy-action@v1.2.0
