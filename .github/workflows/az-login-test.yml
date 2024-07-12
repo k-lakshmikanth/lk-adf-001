@@ -1,0 +1,16 @@
+name: Azure login test
+run-name: Azure login test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Build_ARM_templates:
+    name: Build ARM templates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure Login
+        uses: Azure/login@v2.1.0
+        with:
+          creds: ${{ secrets.AZURE_SPN_CERDENTIALS_JSON }}
+          enable-AzPSSession: true
