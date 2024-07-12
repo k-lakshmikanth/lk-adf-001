@@ -10,19 +10,24 @@ on:
 jobs:
   azure_login:
     name: Azure login
-    runs-on: windows-latest
-    environment: TEST
+    runs-on: ubuntu-latest
     steps:
-      - name: Azure Login
-        uses: Azure/login@v1.4.6
-        with:
-          creds: '{"clientId": "ec755ded-9fa9-4eeb-8e19-80e886940fd9","clientSecret": "3Xk8Q~5lWw5jUoPVx3m.AHi-_JG9~fWuBoO1ebhW","subscriptionId": "0417ba2f-23e4-4c31-93be-75e376017b03","tenantId": "83f1e4bf-6250-46ba-9d55-4fc1c00efb85"}'
-          enable-AzPSSession: true
 
-      - name: Azure CLI script
-        uses: azure/cli@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az account show
-            az storage -h
+    - uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_SPN_CERDENTIALS_JSON }}
+        enable-AzPSSession: true
+
+    - name: Azure CLI script
+      uses: azure/cli@v2
+      with:
+        azcliversion: latest
+        inlineScript: |
+          az account show
+
+    - name: Azure PowerShell script
+      uses: azure/powershell@v2
+      with:
+        azPSVersion: "latest"
+        inlineScript: |
+          Get-AzWebApp
