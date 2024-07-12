@@ -5,8 +5,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  Build_ARM_templates:
-    name: Build ARM templates
+  azure_login:
+    name: Azure login
     runs-on: ubuntu-latest
     steps:
       - name: Azure Login
