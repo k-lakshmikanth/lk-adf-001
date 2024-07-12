@@ -3,6 +3,9 @@ run-name: Azure login test
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - dev  
 
 jobs:
   azure_login:
