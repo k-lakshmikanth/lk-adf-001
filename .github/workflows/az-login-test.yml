@@ -12,17 +12,16 @@ jobs:
     name: Azure login
     runs-on: ubuntu-latest
     steps:
-      - name: Azure PowerShell script
-        uses: azure/powershell@v2
+      - name: Login to Azure
+        uses: azure/login@v1.4.6
         with:
-          azPSVersion: "latest"
-          inlineScript: |
-            az account list
-  
-      - uses: azure/login@v2
-        with:
-          creds: ${{ secrets.AZURE_SPN_CERDENTIALS_JSON }}
+          creds: '{"clientId": "258fc8fd-dba1-498f-a587-e6a562fc1175","clientSecret": "SjS8Q~Ke7E5l7WO.oantmgrKDhjTgDIR.SBkUdk7","subscriptionId": "0b23516f-bb48-4905-98eb-2a781eb50d8d","tenantId": "841d5291-c0fb-4516-8fca-f429875be39d"}'
           enable-AzPSSession: true
+  
+      # - uses: azure/login@v2
+      #   with:
+      #     creds: ${{ secrets.AZURE_SPN_CERDENTIALS_JSON }}
+      #     enable-AzPSSession: true
   
       - name: Azure CLI script
         uses: azure/cli@v2
@@ -30,11 +29,3 @@ jobs:
           azcliversion: latest
           inlineScript: |
             az account show
-  
-      - name: Azure PowerShell script
-        uses: azure/powershell@v2
-        with:
-          azPSVersion: "latest"
-          inlineScript: |
-            az account list
-  
