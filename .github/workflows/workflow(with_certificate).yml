@@ -2,9 +2,9 @@ name: CICD with client certificate
 run-name: CICD with client certificate
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
 
 jobs:
   Build_ARM_templates:
