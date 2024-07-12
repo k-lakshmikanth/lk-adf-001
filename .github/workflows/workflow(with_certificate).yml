@@ -1,6 +1,5 @@
-name: Deploy Ingestion ADF to PROD2
-run-name: Deploy Ingestion ADF to PROD2
-
+name: CICD with client certificate
+run-name: CICD with client certificate
 on:
   workflow_dispatch:
   push:
@@ -8,7 +7,7 @@ on:
       - main
 
 jobs:
-  build_ARM_templates:
+  Build_ARM_templates:
     name: Build ARM templates
     runs-on: ubuntu-latest
     steps:
@@ -29,9 +28,9 @@ jobs:
           path: ${{steps.export.outputs.arm-template-directory }}
           if-no-files-found: error
 
-  deploy_to_uat_ingestion_adf:
+  Deploy_to_TEST_ADF:
     # if: ${{ github.ref == 'refs/heads/uat' || github.ref_name == 'uat' }}
-    needs: [build_ARM_templates]
+    needs: [Build_ARM_templates]
     name: Deploy to TEST ADF
     runs-on: ubuntu-latest
     environment: TEST
