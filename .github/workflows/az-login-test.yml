@@ -1,0 +1,19 @@
+name: Azure login test
+run-name: Azure login test
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev  
+
+jobs:
+  azure_login:
+    name: Azure login
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure Login
+        uses: Azure/login@v2.1.0
+        with:
+          creds: ${{ secrets.AZURE_SPN_CERDENTIALS_JSON }}
+          enable-AzPSSession: true
